@@ -50,13 +50,39 @@ public class BinarySearchTreeLab
 		
 		return n;
 	}
+	
 	public void remove(int o) {
-		root = remove(o, root);
+		root = remove(root, o);
 	}
-	private Node remove(int o, Node n) {
-		if(n!= null) {
+	private Node remove(Node n, int o) {
+		if(n == null) return null; 
+		if(o == n.data) {
+			if(n.left == null && n.right == null) {
+				return null;
+			}
+			else if(n.left == null || n.right == null) {
+				if(n.left == null) {
+					return n.right;
+				}
+				else {
+					return n.left;
+				}
+			}
+			else if (n.left != null && n.right != null){
+				int smallestValue = smallest(n.right);
+				n.data = smallestValue;
+				n.right = remove(n.right, smallestValue);
+				return n;
+			}
 			
 		}
+		else if(n.data > o) {
+			n.left = remove(n.left, o);
+		}
+		else if(n.data < o) {
+			n.right = remove(n.right, o);
+		}
+	
 		return n;
 	}
 	
@@ -121,14 +147,7 @@ public class BinarySearchTreeLab
 	}
 	
 	private int largest(Node n) {
-		if(n.right == null) {
-			return n.data;
-		}
-		else {
-			largest(n.right);
-		}
-		
-		return n.data;
+		return n.right == null ? n.data : largest(n.right);
 	}
 	
 	public int smallest() {
@@ -139,22 +158,9 @@ public class BinarySearchTreeLab
 	}
 	
 	private int smallest(Node n) {
-		if(n.left == null) {
-			return n.data;
-		}
-		else {
-			smallest(n.left);
-		}
-		return n.data;
+		 return n.left == null ? n.data : smallest(n.left);
 	}
-	public static void main(String[] args) throws Exception{
-		BinarySearchTreeLab tree = new BinarySearchTreeLab();
-		int[] nums = {90, 10, 87, 33, 24, 56, 22, 66, 221, 455, 11, -90, 3, 4, 5, 6, 7, -9, 100, 200, 300};
-		for(int i : nums) {
-			tree.add(i);
-		}
-		System.out.println(tree.find(-90));
-	}
+
 	 /*
 	    70   -  add + traversals – inOrder, preorder, postOrder, revOrder
 	    
