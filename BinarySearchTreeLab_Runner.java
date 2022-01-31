@@ -10,20 +10,25 @@ public class BinarySearchTreeLab_Runner
 		//for each loop through cases
 			//add each value from case to the tree
 			//print the tree after each add
-		System.out.println(cases.length);
+		//System.out.println(cases.length);
 			for(int num : cases) {
 				lab.add(num);
 				//System.out.println(lab);
 			}
-			System.out.println(lab);
-			int t = 0;
-			for(int i : cases) {
-//				t++;
-//				System.out.println(t + " " + lab.find(i));
-				lab.remove(i);
-				System.out.println(lab);
-			}
-			System.out.println(lab + " fin");
+			System.out.println(lab.countLeaves());
+//			int t = 0;
+//			for(int num : cases) {
+//				t += num;
+//			}
+//			System.out.println(t);
+//			System.out.println(lab.sumNodes());
+//			for(int i : cases) {
+////				t++;
+////				System.out.println(t + " " + lab.find(i));
+//				lab.remove(i);
+//				System.out.println(lab);
+//			}
+//			System.out.println(lab + " fin");
 			//System.out.print(lab);
 		//print the tree after all adds
 			//use in order
