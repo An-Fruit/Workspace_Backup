@@ -11,24 +11,27 @@ public class BinarySearchTreeLab_Runner
 			//add each value from case to the tree
 			//print the tree after each add
 		//System.out.println(cases.length);
+		lab.setOrder(4);
 			for(int num : cases) {
 				lab.add(num);
-				//System.out.println(lab);
+				System.out.println(lab);
 			}
-			System.out.println(lab.countLeaves());
-//			int t = 0;
-//			for(int num : cases) {
-//				t += num;
-//			}
-//			System.out.println(t);
-//			System.out.println(lab.sumNodes());
-//			for(int i : cases) {
-////				t++;
-////				System.out.println(t + " " + lab.find(i));
-//				lab.remove(i);
-//				System.out.println(lab);
-//			}
-//			System.out.println(lab + " fin");
+			System.out.println("This is a binary search tree: " + lab.isBST());
+			System.out.println("Sum of all values in the tree: " + lab.sumNodes());
+			System.out.println("Number of \"leaves\" in the tree: " + lab.countLeaves());
+			System.out.println("Height of the tree: " + lab.getHeight());
+			System.out.println("Width of the tree: " + lab.getWidth());
+			
+//			lab.setOrder(3);
+//			System.out.print("levelOrder traversal: "); System.out.println(lab);
+//			lab.setOrder(1);
+//			System.out.print("preOrder traversal: "); System.out.println(lab);
+			
+			for(int i : cases) {
+				lab.remove(i);
+				System.out.println(lab);
+			}
+			System.out.println(lab + " fin");
 			//System.out.print(lab);
 		//print the tree after all adds
 			//use in order

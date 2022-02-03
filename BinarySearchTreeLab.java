@@ -1,5 +1,20 @@
 import java.util.*;
-
+/*
+ *  Name: Andre Zhang
+ * 
+ * Using the setOrder method will change the traversal order of the tree
+ * 1 = pre-order
+ * 2 = post-order
+ * 3 = level-order
+ * 4 = reverse order
+ * any other number = in-order
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
 public class BinarySearchTreeLab
 {
 	public class Node
@@ -21,20 +36,38 @@ public class BinarySearchTreeLab
 	   }
 	}
 
-   public Node root;
+   private Node root;
    private int order;
    private String print;
    //constructor
    public BinarySearchTreeLab() {
 	   print = "";
-	   //set to inorder
-	   order = 2;
+	  //sets the order to -1 so it defaults to in-order
+	   order = -1;
    }
-   
-   
+   //working
+   public String toString() {
+		print = "";
+		if(order == 1) {
+			preOrder(root);
+		}
+		else if(order == 2) {
+			postOrder(root);
+		}
+		else if(order == 3) {
+			levelOrder(root);
+		}
+		else if(order == 4) {
+			revOrder(root);
+		}
+
+		else {
+			inOrder(root);
+		}
+		return print;
+	}
    //add method
    public void setOrder(int val) {
-	   if(val != 1 && val != 2 && val != 3) throw new IllegalArgumentException();
 	   order = val;
    }
    //working
@@ -56,6 +89,7 @@ public class BinarySearchTreeLab
 		
 		return n;
 	}
+	
 	//working
 	public void remove(int o) {
 		root = remove(root, o);
@@ -104,23 +138,51 @@ public class BinarySearchTreeLab
 		
 	}
 	//working
-	private void preOrder(Node n) {
-		
+	private void preOrder(Node n) { 
 		if(n != null) {
 			print += n.data + " ";
 			preOrder(n.left);
 			preOrder(n.right);
 		}
+		return;
 	}
 	//working
 	private void postOrder(Node n) {
-		
 		if(n != null) {
 			print += n.data + " ";
 			postOrder(n.right);
 			postOrder(n.left);
 		}
+		return;
 	}
+	private void revOrder(Node n) {
+		if(n != null) {
+			revOrder(n.right);
+			print += n.data + " ";
+			revOrder(n.left);
+		}
+		
+		return;
+		
+	}
+	//working
+	private void levelOrder(Node n) {
+		if(root == null) return;
+		Queue<Node> q = new LinkedList<Node>();
+		q.add(root);
+		while(!q.isEmpty()) {
+			Node temp = q.poll();
+			print += temp.data + " ";
+			if(temp.left != null) {
+				q.add(temp.left);
+			}
+			if(temp.right != null) {
+				q.add(temp.right);
+			}
+			
+		}
+	}
+	
 	//working
 	public boolean find (int val) {
 		return find(root, val);
@@ -138,20 +200,7 @@ public class BinarySearchTreeLab
 		
 		return false;
 	}
-	//working
-	public String toString() {
-		print = "";
-		if(order == 1) {
-			preOrder(root);
-		}
-		else if(order == 2) {
-			inOrder(root);
-		}
-		else {
-			postOrder(root);
-		}
-		return print;
-	}
+	
 	//working
 	public int largest() {
 		if(root == null) {
@@ -163,6 +212,7 @@ public class BinarySearchTreeLab
 	private int largest(Node n) {
 		return n.right == null ? n.data : largest(n.right);
 	}
+	
 	//working
 	public int smallest() {
 		if(root == null) {
@@ -175,6 +225,7 @@ public class BinarySearchTreeLab
 		 return n.left == null ? n.data : smallest(n.left);
 	}
 	
+	//working
 	public int sumNodes() {
 		if(root == null) throw new NoSuchElementException();
 		return sumNodes(root);
@@ -184,7 +235,8 @@ public class BinarySearchTreeLab
 		return n.data + sumNodes(n.left) + sumNodes(n.right);
 	
 	}
-	//TODO: finish this method - it's not done yet
+	
+	// working
 	public int countLeaves() {
 		if(root == null) throw new NoSuchElementException();
 		return countLeaves(root);
@@ -192,7 +244,69 @@ public class BinarySearchTreeLab
 	private int countLeaves(Node n) {
 		if(n == null) return 0;
 		if(n.left == null && n.right == null) return 1;
-		return countLeaves(n.left) + countLeaves(n.right);
+		return countLeaves(n.left) + countLeaves(n.right);	
+	}
+	
+	//working
+	public boolean isBST() {
+		print = "";
+		if(root == null) return false;
+		inOrder(root);
+		String[] words = print.split(" ");
+		ArrayList<Integer> nums = new ArrayList<>();
+		for(String s : words) {
+			if(!s.equals("")) nums.add(Integer.parseInt(s));
+		}
+		for(int i = 1; i < nums.size(); i++) {
+			int cache = nums.get(i - 1); 
+			if(cache > nums.get(i)) return false;
+		}
+		return true;
+	}
+	
+	//working
+	public int getHeight() {
+		if(root == null) return 0;
+		return getHeight(root);
+	}
+	private int getHeight(Node n) {
+		if(n == null) return 0;
+		else {
+			int leftHeight = getHeight(n.left);
+			int rightHeight = getHeight(n.right);
+			if(leftHeight > rightHeight) {
+				return leftHeight + 1;
+			}
+			else {
+				return rightHeight + 1;
+			}
+		}
+	}
+	
+	//working
+	public int getWidth() {
+		if(root == null) return 0;
+		return getWidth(root);
+	}
+	private int getWidth(Node n) {
+		if(n == null) return 0;
+		return 1 + getHeight(n.left) + getHeight(n.right);
+	}
+	
+	//
+	public boolean isFull() {
+		if(root == null) return false;
+		boolean con = true;
+		return isFull(root);
+	}
+	
+	private boolean isFull(Node n) {
+		if(root.left == null && root.right == null) return true;
+		else {
+			if(n.left == null && n.right == null) return true;
+			if((n.left == null)^(n.right == null)) return false;
+			else return isFull(n.left) && isFull(n.right);
+		}
 		
 		
 	}
@@ -209,10 +323,13 @@ public class BinarySearchTreeLab
                     printem tree where it lookem like tree 
                     
     */
+	
 	public static void main(String[] args) throws Exception{
 		BinarySearchTreeLab test = new BinarySearchTreeLab();
-		int[] nums = new int[] {20, 18, 35, 200, 19, 24};
+		int[] nums = new int[] {20};
 		for(int num: nums) test.add(num);
-		System.out.println(test.countLeaves());
+		System.out.println(test);
+		System.out.println(test.getWidth());
+		System.out.println(test.isBST());
 	}
 }
