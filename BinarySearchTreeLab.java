@@ -208,7 +208,6 @@ public class BinarySearchTreeLab
 		}
 		return largest(root);
 	}
-	
 	private int largest(Node n) {
 		return n.right == null ? n.data : largest(n.right);
 	}
@@ -220,7 +219,6 @@ public class BinarySearchTreeLab
 		}
 		return smallest(root);
 	}
-	
 	private int smallest(Node n) {
 		 return n.left == null ? n.data : smallest(n.left);
 	}
@@ -310,6 +308,40 @@ public class BinarySearchTreeLab
 		
 		
 	}
+	
+	public boolean isComplete() {
+		if(root == null) return false;
+		return isComplete(root);
+	}
+	private boolean isComplete(Node n) {
+		Queue<Node> q = new LinkedList<Node>();
+		q.add(root);
+		for(int i = 0; i < getHeight() - 1; i++) {
+			int full = (int)(Math.pow(2, i));
+			int req = 0;
+			while(!q.isEmpty()) {
+				Node temp = q.poll();
+				if(temp.left != null) q.add(temp.left);
+				if(temp.right != null) q.add(temp.left);
+			}
+			
+			
+//			while(!q.isEmpty()) {
+//				Node temp = q.poll();
+//				req++;
+//				if(temp.left != null) {
+//					q.add(temp.left);
+//				}
+//				if(temp.right != null) {
+//					q.add(temp.right);
+//				}
+//				
+//			}
+			
+		}
+		
+		
+	}
 	 /*
 	    70   -  add + traversals – inOrder, preorder, postOrder, revOrder
 	    
@@ -331,5 +363,6 @@ public class BinarySearchTreeLab
 		System.out.println(test);
 		System.out.println(test.getWidth());
 		System.out.println(test.isBST());
+		System.out.println(test.isFull());
 	}
 }
