@@ -45,7 +45,8 @@ public class BinarySearchTreeLab
 	  //sets the order to -1 so it defaults to in-order
 	   order = -1;
    }
-   //working
+   
+   //toString method: depending on what the "order" int is it will traverse the tree in a certain order
    public String toString() {
 		print = "";
 		if(order == 1) {
@@ -66,11 +67,14 @@ public class BinarySearchTreeLab
 		}
 		return print;
 	}
-   //add method
+   
+   
+   //method for setting the order of tree traversal
    public void setOrder(int val) {
 	   order = val;
    }
-   //working
+
+   //add method
    public void add( int o )
 	{
 		root = add( o, root );		
@@ -90,7 +94,8 @@ public class BinarySearchTreeLab
 		return n;
 	}
 	
-	//working
+	
+	//remove method
 	public void remove(int o) {
 		root = remove(root, o);
 	}
@@ -126,7 +131,7 @@ public class BinarySearchTreeLab
 		return n;
 	}
 	
-	//working
+	//next methods are all traversals
 	private void inOrder(Node n) {
 		
 		if(n != null) {
@@ -137,7 +142,6 @@ public class BinarySearchTreeLab
 		return;
 		
 	}
-	//working
 	private void preOrder(Node n) { 
 		if(n != null) {
 			print += n.data + " ";
@@ -146,7 +150,6 @@ public class BinarySearchTreeLab
 		}
 		return;
 	}
-	//working
 	private void postOrder(Node n) {
 		if(n != null) {
 			print += n.data + " ";
@@ -165,7 +168,6 @@ public class BinarySearchTreeLab
 		return;
 		
 	}
-	//working
 	private void levelOrder(Node n) {
 		if(root == null) return;
 		Queue<Node> q = new LinkedList<Node>();
@@ -183,7 +185,7 @@ public class BinarySearchTreeLab
 		}
 	}
 	
-	//working
+	//method for finding a value in the tree
 	public boolean find (int val) {
 		return find(root, val);
 	}
@@ -201,7 +203,7 @@ public class BinarySearchTreeLab
 		return false;
 	}
 	
-	//working
+	//largest and smallest values in the tree
 	public int largest() {
 		if(root == null) {
 			throw new NoSuchElementException();
@@ -211,8 +213,6 @@ public class BinarySearchTreeLab
 	private int largest(Node n) {
 		return n.right == null ? n.data : largest(n.right);
 	}
-	
-	//working
 	public int smallest() {
 		if(root == null) {
 			throw new NoSuchElementException();
@@ -223,9 +223,9 @@ public class BinarySearchTreeLab
 		 return n.left == null ? n.data : smallest(n.left);
 	}
 	
-	//working
+	//sum the nodes
 	public int sumNodes() {
-		if(root == null) throw new NoSuchElementException();
+		if(root == null) return 0;
 		return sumNodes(root);
 	}
 	private int sumNodes(Node n) {
@@ -234,7 +234,7 @@ public class BinarySearchTreeLab
 	
 	}
 	
-	// working
+	// count the number of leaves in the tree
 	public int countLeaves() {
 		if(root == null) throw new NoSuchElementException();
 		return countLeaves(root);
@@ -245,7 +245,7 @@ public class BinarySearchTreeLab
 		return countLeaves(n.left) + countLeaves(n.right);	
 	}
 	
-	//working
+	//checks to see if its a binary tree by looking at the inorder traversal (inorder is always least -> greatest)
 	public boolean isBST() {
 		print = "";
 		if(root == null) return false;
@@ -262,7 +262,7 @@ public class BinarySearchTreeLab
 		return true;
 	}
 	
-	//working
+	// height/width of tree 
 	public int getHeight() {
 		if(root == null) return 0;
 		return getHeight(root);
@@ -280,8 +280,6 @@ public class BinarySearchTreeLab
 			}
 		}
 	}
-	
-	//working
 	public int getWidth() {
 		if(root == null) return 0;
 		return getWidth(root);
@@ -291,13 +289,12 @@ public class BinarySearchTreeLab
 		return 1 + getHeight(n.left) + getHeight(n.right);
 	}
 	
-	//
+	//checks to see if the tree is full
 	public boolean isFull() {
 		if(root == null) return false;
 		boolean con = true;
 		return isFull(root);
 	}
-	
 	private boolean isFull(Node n) {
 		if(root.left == null && root.right == null) return true;
 		else {
@@ -309,38 +306,27 @@ public class BinarySearchTreeLab
 		
 	}
 	
+	//this method is exclusively used in isComplete lol
+	public int countNodes() {
+		if(root == null) {
+			return 0;
+		}
+		return countNodes(root);
+	}
+	private int countNodes(Node n) {
+		if(n == null) return 0;
+		return 1 + countNodes(n.left) + countNodes(n.right);
+	}
+	
+	//checks to see if the tree is complete or not
 	public boolean isComplete() {
 		if(root == null) return false;
-		return isComplete(root);
+		return isComplete(root, 0, countNodes());
 	}
-	private boolean isComplete(Node n) {
-		Queue<Node> q = new LinkedList<Node>();
-		q.add(root);
-		for(int i = 0; i < getHeight() - 1; i++) {
-			int full = (int)(Math.pow(2, i));
-			int req = 0;
-			while(!q.isEmpty()) {
-				Node temp = q.poll();
-				if(temp.left != null) q.add(temp.left);
-				if(temp.right != null) q.add(temp.left);
-			}
-			
-			
-//			while(!q.isEmpty()) {
-//				Node temp = q.poll();
-//				req++;
-//				if(temp.left != null) {
-//					q.add(temp.left);
-//				}
-//				if(temp.right != null) {
-//					q.add(temp.right);
-//				}
-//				
-//			}
-			
-		}
-		
-		
+	private boolean isComplete(Node n, int i, int nodeCnt) {
+		if(n == null) return true;
+		if(i >= nodeCnt) return false;
+		return isComplete(n.left, 2 * i + 1, nodeCnt) && isComplete(n.right, 2 * i + 2, nodeCnt);
 	}
 	 /*
 	    70   -  add + traversals – inOrder, preorder, postOrder, revOrder
@@ -355,14 +341,4 @@ public class BinarySearchTreeLab
                     printem tree where it lookem like tree 
                     
     */
-	
-	public static void main(String[] args) throws Exception{
-		BinarySearchTreeLab test = new BinarySearchTreeLab();
-		int[] nums = new int[] {20};
-		for(int num: nums) test.add(num);
-		System.out.println(test);
-		System.out.println(test.getWidth());
-		System.out.println(test.isBST());
-		System.out.println(test.isFull());
-	}
 }

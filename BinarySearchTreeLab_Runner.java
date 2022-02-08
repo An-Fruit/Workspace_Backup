@@ -21,6 +21,7 @@ public class BinarySearchTreeLab_Runner
 			System.out.println("Number of \"leaves\" in the tree: " + lab.countLeaves());
 			System.out.println("Height of the tree: " + lab.getHeight());
 			System.out.println("Width of the tree: " + lab.getWidth());
+			System.out.println("This tree is a complete tree: " + lab.isComplete());
 			
 //			lab.setOrder(3);
 //			System.out.print("levelOrder traversal: "); System.out.println(lab);
